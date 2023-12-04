@@ -1,0 +1,80 @@
+[{
+  "_id": {
+    "$oid": "656d37d8618b2e2c1b7a8aa4"
+  },
+  "sid": "",
+  "firstname": "Robert",
+  "lastname": "Johnson",
+  "email": "robert.johnson@example.com",
+  "city": "Chicago",
+  "course": [
+    "IT"
+  ],
+  "guardian": "Sarah Johnson",
+  "subjects": [
+    "OOP"
+  ],
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "656d382e618b2e2c1b7a8aa8"
+  },
+  "sid": "",
+  "firstname": "sanji",
+  "lastname": "vinsmoke",
+  "email": "one@gmil.omc",
+  "city": "holyland",
+  "course": [
+    "IT"
+  ],
+  "guardian": "germa",
+  "subjects": [
+    "Java"
+  ],
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "656d3909bb6c5502081c4075"
+  },
+  "sid": "VEptf-dDs",
+  "firstname": "Robert",
+  "lastname": "Johnson",
+  "email": "robert.johnson@example.com",
+  "city": "Chicago",
+  "course": "IT",
+  "guardian": "Sarah Johnson",
+  "subjects": "OOP"
+},
+{
+  "_id": {
+    "$oid": "656d3909bb6c5502081c4076"
+  },
+  "sid": "61K-799ak",
+  "firstname": "Robert",
+  "lastname": "Johnson",
+  "email": "robert.johnson@example.com",
+  "city": "Chicago",
+  "course": "IT,HND",
+  "guardian": "Sarah Johnson",
+  "subjects": "OOP"
+},
+{
+  "_id": {
+    "$oid": "656d3951e7a0ff5564194cc1"
+  },
+  "sid": "3",
+  "firstname": "shad",
+  "lastname": "rat",
+  "email": "rat21@gmail.com",
+  "city": "batticaloa",
+  "course": [
+    "Foundation,HND,Degree"
+  ],
+  "guardian": "riyal",
+  "subjects": [
+    "OOP,Java"
+  ],
+  "__v": 0
+}]

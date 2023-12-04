@@ -1,0 +1,408 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <meta charset="utf-8">
+  <title>Student Management Dashboard</title>
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css">
+  <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
+  <style>
+    body {
+      margin: 0;
+      padding: 0;
+      display: flex;
+    }
+
+    #sidebar {
+      width: 200px;
+      background-color: #002B5B;
+      padding: 20px;
+      position: fixed;
+      height: 100%;
+    }
+
+    #sidebar img {
+      width: 150px;
+      border-radius: 180px;
+      margin-left: 35px;
+    }
+
+    #sidebar ul {
+      padding-top: 40px;
+      padding-left: 0;
+      list-style-type: none;
+      margin: 0;
+    }
+
+    #sidebar ul li {
+      margin-bottom: 10px;
+      padding-top: 10px;
+      padding-bottom: 10px;
+    }
+
+    #sidebar li:hover {
+      background-color: #011122;
+    }
+
+    #sidebar ul li a {
+      color: aliceblue;
+      text-decoration: none;
+      font-size: 20px;
+      padding: 15px;
+    }
+
+    #content {
+      padding: 20px;
+      margin-left: 200px;
+      flex: 1;
+      overflow-y: auto;
+    }
+
+    .searchrow {
+      display: flex;
+      height: 50px;
+    }
+
+    #studentForm {
+      display: flex;
+    }
+
+    .form-group label {
+      text-align: center;
+      padding-left: 35px;
+    }
+
+    @media (max-width: 768px) {
+      #sidebar {
+        display: none;
+      }
+
+      #content {
+        margin-left: 0;
+      }
+    }
+  </style>
+</head>
+
+<body>
+  <script>
+    function showSection(section) {
+      document.getElementById("welcome").style.display = "none";
+      document.getElementById("profile").style.display = "none";
+      document.getElementById("account").style.display = "none";
+      document.getElementById("table").style.display = "none";
+      document.getElementById(section).style.display = "block";
+    }
+  </script>
+
+  <div id="sidebar">
+    <img src="img/succsesMkey.png" alt="profile" style="padding-right: 25px; margin-left: 5px;">
+    <ul>
+      <li><a href="#" onclick="showSection('welcome')">Home</a></li>
+      <li><a href="#" onclick="showSection('profile')">Profile</a></li>
+      <li><a href="#" onclick="showSection('account')">Account</a></li>
+      <li><a href="#" onclick="showSection('table')">Student Data</a></li>
+      <li><a href="/logout">Log Out</a></li>
+    </ul>
+  </div>
+
+  <div id="content">
+    <div id="welcome" style="display: block;">
+      <h2>Welcome to the student management system</h2>
+    </div>
+    <div id="profile" style="display: none;">
+      <h2>Profile Section</h2>
+      <h1>User Details</h1>
+    <div id="userDetails"></div>
+    <script>
+      $(document).ready(function() {
+        // AJAX request to fetch user details
+        $.ajax({
+          url: '/getUserDetails',
+          type: 'GET',
+          success: function(response) {
+            displayUserDetails(response);
+          },
+          error: function(xhr) {
+            alert(xhr.responseText);
+          }
+        });
+  
+        // Function to display user details
+        function displayUserDetails(user) {
+          var userDetailsHTML = `
+            <div class="card mt-4">
+              <div class="card-header">
+                <h3 class="card-title">User Information</h3>
+              </div>
+              <div class="card-body">
+                <p><strong>Username:</strong> ${user.username}</p>
+                <p><strong>Password:</strong> ${user.password}</p>
+              </div>
+            </div>
+          `;
+  
+          $('#userDetails').html(userDetailsHTML);
+        }
+      });
+    </script>
+    </div>
+    <div id="account" style="display: none;">
+      <h2>Account Section</h2>
+      <script>
+        $(document).ready(function() {
+          $('#accountForm').submit(function(event) {
+            event.preventDefault();
+      
+            var newUsername = $('#newUsername').val();
+            var newPassword = $('#newPassword').val();
+      
+            $.ajax({
+              url: '/updateUser',
+              type: 'POST',
+              data: { username: newUsername, password: newPassword },
+              success: function(response) {
+                alert('Account details updated successfully');
+                window.location.reload(); // Refresh the page
+              },
+              error: function(xhr) {
+                alert(xhr.responseText);
+              }
+            });
+          });
+        });
+      </script>
+      
+      <h1>User Account Management</h1>
+      <form id="accountForm" class="mt-4">
+        <div class="form-group">
+          <label for="newUsername">New Username:</label>
+          <input type="text" id="newUsername" name="newUsername" class="form-control" required>
+        </div>
+        <div class="form-group">
+          <label for="newPassword">New Password:</label>
+          <input type="password" id="newPassword" name="newPassword" class="form-control" required>
+        </div>
+        <div class="form-group">
+          <button type="submit" class="btn btn-primary">Update Account</button>
+        </div>
+      </form>
+      
+    </div>
+    <div id="table" style="display: none;">
+      <h2>Student Registration</h2>
+      <form id="studentForm">
+        <div class="form-group">
+          <input type="hidden" class="form-control" id="studentId" required>
+        </div>
+        <div class="form-group">
+
+          <input type="text" class="form-control" id="firstname" placeholder="firstname" required>
+        </div>
+        <div class="form-group">
+          <input type="text" class="form-control" id="lastname" placeholder="lastname" required>
+        </div>
+        <div class="form-group" style="width: 350px;">
+          <input type="email" class="form-control" id="email" placeholder="email" required>
+        </div>
+        <div class="form-group">
+          <input type="text" class="form-control" id="city" placeholder="city" required>
+        </div>
+        <div class="form-group">
+          <input type="text" class="form-control" id="course" placeholder="course" required>
+        </div>
+        <div class="form-group">
+          <input type="text" class="form-control" id="guardian" placeholder="guardian" required>
+        </div>
+        <div class="form-group">
+          <input type="text" class="form-control" id="subjects" placeholder="subjects" required>
+        </div>
+        <div class="form-group" style="padding-left: 10px;">
+          <button type="submit" class="btn btn-primary">Save</button>
+        </div>
+
+      </form>
+
+      <hr>
+      <div class="row searchrow">
+        <div class="col-sm-4">
+          <h6>Student List</h6>
+        </div>
+
+        <div class="col-sm-4" style="display: flex; margin-bottom: 20px;">
+          <input type="text" class="form-control form-control-sm" id="searchInput" placeholder="Search">
+          <button type="button" class="btn btn-primary btn-sm" id="searchButton">Search</button>
+        </div>
+
+      </div>
+      <table id="studentList" class="table table-striped">
+        <thead>
+          <tr>
+            <th>SID</th>
+            <th>First Name</th>
+            <th>Last Name</th>
+            <th>Email</th>
+            <th>City</th>
+            <th>Course</th>
+            <th>Guardian</th>
+            <th>Subjcts</th>
+            <th>Actions</th>
+          </tr>
+        </thead>
+        <tbody></tbody>
+      </table>
+    </div>
+
+    <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+    <script src="account.js"></script>
+    <script>
+      // Load student list on page load
+      $(document).ready(function() {
+        loadStudentList();
+      });
+
+      // Load student list from server
+      function loadStudentList() {
+        $.get('/students', function(data) {
+          var studentList = $('#studentList tbody');
+          studentList.empty();
+          data.forEach(function(student) {
+            var row = $('<tr>');
+            row.append($('<td>').text(student.sid));
+            row.append($('<td>').text(student.firstname));
+            row.append($('<td>').text(student.lastname));
+            row.append($('<td>').text(student.email));
+            row.append($('<td>').text(student.city));
+            row.append($('<td>').text(student.course));
+            row.append($('<td>').text(student.guardian));
+            row.append($('<td>').text(student.subjects));
+            var actions = $('<td>');
+            actions.append($('<button style="font-size: 12px;">').addClass('btn btn-primary').text('Edit')
+              .click(function() {
+                editStudent(student);
+              }));
+            actions.append(' ');
+            actions.append($('<button style="font-size: 12px;">').addClass('btn btn-danger').text('Delete')
+              .click(function() {
+                deleteStudent(student);
+              }));
+            row.append(actions);
+            studentList.append(row);
+          });
+        });
+      }
+
+      // Edit student
+          function editStudent(student) {
+            $('#studentId').val(student.sid);
+            $('#firstname').val(student.firstname);
+            $('#lastname').val(student.lastname);
+            $('#email').val(student.email);
+            $('#city').val(student.city);
+            $('#course').val(student.course.join(', ')); // Convert courses to a string for input
+            $('#guardian').val(student.guardian);
+            $('#subjects').val(student.subjects.join(', ')); // Convert subjects to a string for input
+          }
+
+      // Handle student form submission
+      $('#studentForm').submit(function (event) {
+        event.preventDefault();
+        var studentId = $('#studentId').val();
+        var sid = $('#sid').val();
+        var firstname = $('#firstname').val();
+        var lastname = $('#lastname').val();
+        var email = $('#email').val();
+        var city = $('#city').val();
+        var course = $('#course').val().split(',').map(course => course.trim()); // Convert course string to array
+        var guardian = $('#guardian').val();
+        var subjects = $('#subjects').val().split(',').map(subject => subject.trim()); // Convert subjects string to array
+
+        var url = studentId ? '/students/' + studentId : '/students';
+        var method = studentId ? 'PUT' : 'POST';
+
+        $.ajax({
+          url: url,
+          method: method,
+          data: {
+            sid: sid,
+            firstname: firstname,
+            lastname: lastname,
+            email: email,
+            city: city,
+            course: course,
+            guardian: guardian,
+            subjects: subjects,
+          },
+          success: function () {
+            $('#studentForm')[0].reset();
+            $('#studentId').val('');
+            loadStudentList();
+          },
+        });
+      });
+
+      // Delete student
+      function deleteStudent(student) {
+        if (confirm('Are you sure you want to delete this student?')) {
+          $.ajax({
+            url: '/students/' + student.sid,
+            method: 'DELETE',
+            success: function() {
+              loadStudentList();
+            }
+          });
+        }
+      }
+      // Search students
+$('#searchButton').click(function () {
+  var searchQuery = $('#searchInput').val().toLowerCase();
+  var studentList = $('#studentList tbody');
+  studentList.empty();
+
+  $.get('/students', function (studentData) {
+    $.each(studentData, function (index, student) {
+      if (
+        student.sid.toLowerCase().includes(searchQuery) ||
+        student.firstname.toLowerCase().includes(searchQuery) ||
+        student.lastname.toLowerCase().includes(searchQuery) ||
+        student.email.toLowerCase().includes(searchQuery) ||
+        student.city.toLowerCase().includes(searchQuery) ||
+        student.course.join(', ').toLowerCase().includes(searchQuery) || // Join courses into a string
+        student.guardian.toLowerCase().includes(searchQuery) ||
+        student.subjects.join(', ').toLowerCase().includes(searchQuery) // Join subjects into a string
+      ) {
+        var row = $('<tr>');
+        row.append($('<td>').text(student.sid));
+        row.append($('<td>').text(student.firstname));
+        row.append($('<td>').text(student.lastname));
+        row.append($('<td>').text(student.email));
+        row.append($('<td>').text(student.city));
+        row.append($('<td>').text(student.course.join(', '))); // Display courses as a comma-separated string
+        row.append($('<td>').text(student.guardian));
+        row.append($('<td>').text(student.subjects.join(', '))); // Display subjects as a comma-separated string
+
+        var actions = $('<td>');
+        actions.append(
+          $('<button>').addClass('btn btn-primary btn-sm').text('Edit').click(function () {
+            editStudent(student);
+          })
+        );
+        actions.append(' ');
+        actions.append(
+          $('<button>').addClass('btn btn-danger btn-sm').text('Delete').click(function () {
+            deleteStudent(student);
+          })
+        );
+        row.append(actions);
+        studentList.append(row);
+      }
+    });
+  });
+});
+
+    </script>
+
+</body>
+
+</html>

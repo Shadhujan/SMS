@@ -1,0 +1,43 @@
+[
+  {
+    "sid": "3",
+    "firstname": "shad",
+    "lastname": "rat",
+    "email": "rat21@gmail.com",
+    "city": "batticaloa",
+    "course": [
+      "Foundation",
+      "HND",
+      "Degree"
+    ],
+    "guardian": "riyal",
+    "Subjects": [
+      "ETF",
+      "ORDBMS",
+      "OOP",
+      "SE",
+      "HCI",
+      "IP"
+    ]
+  },
+  {
+    "sid": "VEptf-dDs",
+    "firstname": "Robert",
+    "lastname": "Johnson",
+    "email": "robert.johnson@example.com",
+    "city": "Chicago",
+    "course": "IT",
+    "guardian": "Sarah Johnson",
+    "subjects": "OOP"
+  },
+  {
+    "sid": "61K-799ak",
+    "firstname": "Robert",
+    "lastname": "Johnson",
+    "email": "robert.johnson@example.com",
+    "city": "Chicago",
+    "course": "IT,HND",
+    "guardian": "Sarah Johnson",
+    "subjects": "OOP"
+  }
+]
