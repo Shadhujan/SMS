@@ -196,10 +196,10 @@ app.get('/students/:sid', async (req, res) => {
 // Add a new student
 app.post('/students', async (req, res) => {
   if (req.session.user) {
-    const { sid, firstname, lastname, email, city, course, guardian, subjects } = req.body;
+    const { firstname, lastname, email, city, course, guardian, subjects } = req.body;
 
     const newStudent = new Student({
-      sid: sid,
+      sid: shortid.generate(),
       firstname: firstname,
       lastname: lastname,
       email: email,
